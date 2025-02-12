@@ -67,7 +67,7 @@ def home(request):
     )
     topics=Topic.objects.all()
     room_count=rooms.count()
-    room_messages=Message.objects.all()
+    room_messages=Message.objects.filter(Q(room__topic__name__icontains=q))
     context={
         'rooms':rooms,'topics':topics,'room_count':room_count,
         'room_messages':room_messages
@@ -141,4 +141,5 @@ def deleteMessage(request,pk):
         message.delete()
         return redirect('home')
     return render(request,'base/delete.html',{'obj' : message})
+
 
